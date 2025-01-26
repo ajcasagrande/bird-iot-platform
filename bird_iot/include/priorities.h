@@ -1,0 +1,15 @@
+#pragma once
+
+#include <freertos/FreeRTOS.h>
+
+#define MIN_PRIORITY 1
+#define VERY_LOW_PRIORITY 3
+#define LOW_PRIORITY 5
+#define MEDIUM_LOW_PRIORITY 8
+#define MEDIUM_PRIORITY 12
+#define MEDIUM_HIGH_PRIORITY 15
+#define HIGH_PRIORITY 17
+#define VERY_HIGH_PRIORITY 20
+#define MAX_PRIORITY (configMAX_PRIORITIES - 1)
+#define ONE_BELOW_MAX (MAX_PRIORITY - 1)
+#define TWO_BELOW_MAX (MAX_PRIORITY - 2)

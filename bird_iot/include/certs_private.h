@@ -1,0 +1,14 @@
+#pragma once
+
+static const char TLS_CERTIFICATE[] PROGMEM = R"EOF(
+-----BEGIN CERTIFICATE-----
+TODO_PUT_YOUR_CERT_INFO_HERE
+-----END CERTIFICATE-----
+)EOF";
+
+
+static const char TLS_KEY[] PROGMEM = R"EOF(
+-----BEGIN RSA PRIVATE KEY-----
+TODO_PUT_YOUR_CERT_INFO_HERE
+-----END RSA PRIVATE KEY-----
+)EOF";

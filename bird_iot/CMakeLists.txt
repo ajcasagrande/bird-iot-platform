@@ -1,0 +1,74 @@
+set(SRCDIRS
+    .
+    modes
+    plugins
+    plugins/ble
+    plugins/buttons
+    plugins/command
+    plugins/device
+    plugins/displays
+    plugins/garage
+    plugins/gps
+    plugins/hw
+    plugins/http
+    plugins/i2c
+    plugins/spektrum
+    plugins/ir
+    plugins/led
+    plugins/mdns
+    plugins/mqtt
+    plugins/neopixel
+    plugins/neopixel/animations
+    plugins/ota
+    plugins/rf
+    plugins/sensors
+    plugins/sensors/reed
+    plugins/sensors/temperature
+    plugins/sntp
+    plugins/spiffs
+    plugins/websockets
+    plugins/wifi
+    plugins/nfc
+    plugins/onewire
+    plugins/servo
+    rtos
+    streams
+    tasks
+    util
+    )
+
+include(${PROJECT_DIR}/../../cmake/idf.cmake)
+
+idf_component_register(
+  SRC_DIRS ${SRCDIRS}
+  INCLUDE_DIRS include include/fonts ${SRCDIRS}
+
+  REQUIRES
+    ${BASE_IDF_COMPONENTS}
+    adafruit_sensor
+    arduino
+    arduino_json
+    arduino_websockets
+    bb_spi_lcd
+    bmp280
+    dallas_temp
+    dht
+    easy_button
+    hdc1000
+    htu21d
+    i2c_lcd
+    lm75a
+    mcp9808
+    neopixelbus
+    nkolban
+    onewire
+    rc_switch
+    streaming
+    tft_espi
+    tinygps_plus
+    pn532
+    m5stick
+    qmc5883l
+    i2cslave
+    spektrum-esp32
+)

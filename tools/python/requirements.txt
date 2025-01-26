@@ -1,0 +1,11 @@
+PyYAML
+semver
+birdparse
+birdyaml
+birdjson
+birdpy
+zeroconf
+pyserial
+websocket-client
+esptool
+plac

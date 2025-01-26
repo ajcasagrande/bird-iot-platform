@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+printf "\e[36mSetting up ESP-IDF and Python environments...\e[0m"
+IDF_PATH=${IDF_PATH:-${HOME}/esp/esp-idf}
+XTENSA_DIR=${XTENSA_DIR:-${HOME}/.espressif/tools/xtensa-esp32-elf/esp-active/xtensa-esp32-elf}
+export IDF_PATH
+export XTENSA_DIR
+
+. ${IDF_PATH}/add_path.sh > /dev/null
+
+idf_exports=$(${IDF_PATH}/tools/idf_tools.py export) || return 1
+eval "${idf_exports}" > /dev/null
+
+alias idf="idf.py"
+if [ "${PS1:0:5}" != "(idf)" ]; then
+  PS1="(idf) $PS1"
+fi
+
+printf "\e[32m [Done]\e[0m\n"

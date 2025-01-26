@@ -1,0 +1,129 @@
+
+if(${CONFIG_NKOLBAN_BLE})
+set(BLE_SRCS
+    "esp32-snippets/cpp_utils/BLE2902.cpp"
+    "esp32-snippets/cpp_utils/BLE2904.cpp"
+    "esp32-snippets/cpp_utils/BLEAddress.cpp"
+    "esp32-snippets/cpp_utils/BLEAdvertisedDevice.cpp"
+    "esp32-snippets/cpp_utils/BLEAdvertising.cpp"
+    "esp32-snippets/cpp_utils/BLEBeacon.cpp"
+    "esp32-snippets/cpp_utils/BLECharacteristic.cpp"
+    "esp32-snippets/cpp_utils/BLECharacteristicMap.cpp"
+    "esp32-snippets/cpp_utils/BLEClient.cpp"
+    "esp32-snippets/cpp_utils/BLEDescriptor.cpp"
+    "esp32-snippets/cpp_utils/BLEDescriptorMap.cpp"
+    "esp32-snippets/cpp_utils/BLEDevice.cpp"
+    "esp32-snippets/cpp_utils/BLEEddystoneTLM.cpp"
+    "esp32-snippets/cpp_utils/BLEEddystoneURL.cpp"
+    "esp32-snippets/cpp_utils/BLEExceptions.cpp"
+    "esp32-snippets/cpp_utils/BLEHIDDevice.cpp"
+    "esp32-snippets/cpp_utils/BLERemoteCharacteristic.cpp"
+    "esp32-snippets/cpp_utils/BLERemoteDescriptor.cpp"
+    "esp32-snippets/cpp_utils/BLERemoteService.cpp"
+    "esp32-snippets/cpp_utils/BLEScan.cpp"
+    "esp32-snippets/cpp_utils/BLESecurity.cpp"
+    "esp32-snippets/cpp_utils/BLEServer.cpp"
+    "esp32-snippets/cpp_utils/BLEService.cpp"
+    "esp32-snippets/cpp_utils/BLEServiceMap.cpp"
+    "esp32-snippets/cpp_utils/BLEUtils.cpp"
+    "esp32-snippets/cpp_utils/BLEUUID.cpp"
+    "esp32-snippets/cpp_utils/BLEValue.cpp"
+    )
+else()
+  set(BLE_SRCS )
+endif()
+
+if(${CONFIG_NKOLBAN_NETWORKING})
+  set(WEBSOCKET_SRCS
+      "esp32-snippets/cpp_utils/HttpParser.cpp"
+      "esp32-snippets/cpp_utils/HttpRequest.cpp"
+      "esp32-snippets/cpp_utils/HttpResponse.cpp"
+      "esp32-snippets/cpp_utils/HttpServer.cpp"
+      "esp32-snippets/cpp_utils/RESTClient.cpp"
+      "esp32-snippets/cpp_utils/FTPCallbacks.cpp"
+      "esp32-snippets/cpp_utils/FTPServer.cpp"
+      "esp32-snippets/cpp_utils/Socket.cpp"
+      "esp32-snippets/cpp_utils/SockServ.cpp"
+      "esp32-snippets/cpp_utils/WiFi.cpp"
+      "esp32-snippets/cpp_utils/WiFiEventHandler.cpp"
+      "esp32-snippets/cpp_utils/WebServer.cpp"
+      "esp32-snippets/cpp_utils/WebSocket.cpp"
+      "esp32-snippets/cpp_utils/WebSocketFileTransfer.cpp"
+      "esp32-snippets/cpp_utils/SSLUtils.cpp"
+      "esp32-snippets/cpp_utils/TFTP.cpp"
+      "esp32-snippets/cpp_utils/JSON.cpp"
+      "esp32-snippets/cpp_utils/MAX7219.cpp"
+      )
+else()
+  set(WEBSOCKET_SRCS )
+endif()
+
+if(${CONFIG_NKOLBAN_EXTRAS})
+  set(EXTRAS_SRCS
+      "esp32-snippets/cpp_utils/IFTTT.cpp"
+      "esp32-snippets/cpp_utils/PubSubClient.cpp"
+      "esp32-snippets/cpp_utils/WS2812.cpp"
+      "esp32-snippets/cpp_utils/SmartLED.cpp"
+      "esp32-snippets/cpp_utils/OV7670.cpp"
+      "esp32-snippets/cpp_utils/PCF8574.cpp"
+      "esp32-snippets/cpp_utils/PCF8575.cpp"
+      "esp32-snippets/cpp_utils/MFRC522.cpp"
+      "esp32-snippets/cpp_utils/MPU6050.cpp"
+      "esp32-snippets/cpp_utils/MRFC522Debug.cpp"
+      "esp32-snippets/cpp_utils/NeoPixelWiFiEventHandler.cpp"
+      "esp32-snippets/cpp_utils/Console.cpp"
+      "esp32-snippets/cpp_utils/CPPNVS.cpp"
+      "esp32-snippets/cpp_utils/FATFS_VFS.cpp"
+      "esp32-snippets/cpp_utils/File.cpp"
+      "esp32-snippets/cpp_utils/FileSystem.cpp"
+      "esp32-snippets/cpp_utils/GPIO.cpp"
+      "esp32-snippets/cpp_utils/I2C.cpp"
+      "esp32-snippets/cpp_utils/I2S.cpp"
+      "esp32-snippets/cpp_utils/Memory.cpp"
+      "esp32-snippets/cpp_utils/MMU.cpp"
+      "esp32-snippets/cpp_utils/PWM.cpp"
+      "esp32-snippets/cpp_utils/RMT.cpp"
+      "esp32-snippets/cpp_utils/SOC.cpp"
+      "esp32-snippets/cpp_utils/SPI.cpp"
+      "esp32-snippets/cpp_utils/System.cpp"
+      "esp32-snippets/cpp_utils/Task.cpp"
+      "esp32-snippets/cpp_utils/U8G2.cpp"
+      "esp32-snippets/cpp_utils/FreeRTOSTimer.cpp"
+      )
+else()
+  set(EXTRAS_SRCS )
+endif()
+
+set(BASE_SRCS
+  "esp32-snippets/cpp_utils/FreeRTOS.cpp"
+  "esp32-snippets/cpp_utils/GeneralUtils.cpp"
+)
+
+set(COMPONENT_SRCS
+    ${BLE_SRCS}
+    ${WEBSOCKET_SRCS}
+    ${EXTRAS_SRCS}
+    ${BASE_SRCS}
+    )
+
+set(COMPONENT_ADD_INCLUDEDIRS
+  "."
+  "esp32-snippets/cpp_utils"
+)
+
+set(COMPONENT_REQUIRES
+  esp32
+  freertos
+  mbedtls
+  json
+  lwip
+  mdns
+  console
+  fatfs
+  nvs_flash
+  esp_ringbuf
+  bt
+  arduino
+)
+
+register_component()

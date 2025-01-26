@@ -1,0 +1,627 @@
+menu "Bird-IoT Configuration"
+    config BIRD_IOT_ENV
+      string "Bird IoT Environment"
+      default "unknown"
+
+  menu "Config"
+    config DEVICE_ID_PREFIX
+      string "Device ID Prefix"
+      default "esp32"
+
+    choice BIRD_IOT_LOG_LEVEL
+      bool "App log level"
+      default LOG_LEVEL_DEBUG
+
+      config LOG_LEVEL_NONE
+        bool "No output"
+      config LOG_LEVEL_ERROR
+        bool "Error"
+      config LOG_LEVEL_WARN
+        bool "Warning"
+      config LOG_LEVEL_INFO
+        bool "Info"
+      config LOG_LEVEL_DEBUG
+        bool "Debug"
+      config LOG_LEVEL_VERBOSE
+        bool "Verbose"
+    endchoice
+
+    config BIRD_IOT_LOG_LEVEL
+      int
+      default 0 if LOG_LEVEL_NONE
+      default 1 if LOG_LEVEL_ERROR
+      default 2 if LOG_LEVEL_WARN
+      default 3 if LOG_LEVEL_INFO
+      default 4 if LOG_LEVEL_DEBUG
+      default 5 if LOG_LEVEL_VERBOSE
+
+    config USE_ESP_RESTART
+      bool "Call esp_restart to reboot device"
+      default n
+      help
+        This function to attempt to gracefully shutdown using esp_restart()
+        If disabled, default to tripping the WDT
+
+    config SPRINTF_LONG_LONG
+      bool "xsprintf 64-bit support"
+      default y
+
+    config ADC_PIN
+      int "ADC PIN for Vcc measurement"
+      default -1
+
+    config BIRD_IOT_LOCK_ACQUIRE_INTERVAL
+      int "Acquire lock retry interval"
+      default 10
+      help
+        Amount of milliseconds to wait in-between retries when a lock is unable to be acquired
+
+    config BIRD_IOT_LOCK_WAIT_SECONDS
+      int "Lock acquire max seconds"
+      default 10
+      help
+        Maximum amount of time (seconds) to wait for a lock to be acquired
+
+  endmenu # Config
+
+  menu "Plugins"
+
+    config ENABLE_HOBBYWING_TASK_PLUGIN
+      bool "Hobbywing Task Plugin"
+      default n
+
+
+    config ENABLE_I2C_SLAVE
+      bool "I2C Slave"
+      default n
+
+
+    config ENABLE_RC_LIGHTS_PLUGIN
+      bool "Rc Lights Plugin"
+      default n
+
+    config ENABLE_SERVO_INPUT_PLUGIN
+      bool "Servo Input Plugin"
+      default n
+
+
+    config ENABLE_AXP192_SENSOR
+        bool "Enable AXP192 Sensor"
+        default n
+
+    menu "Safe Mode"
+      config SAFE_MODE_MQTT_THRESHOLD
+        int "Safe Mode Mqtt Threshold"
+        default 3
+
+      config SAFE_MODE_WIFI_ONLY_THRESHOLD
+        int "Safe Mode Wifi Only Threshold"
+        default 5
+
+      config SAFE_MODE_ALERT_SECONDS
+        int "Safe Mode Alert Seconds"
+        default 3
+    endmenu # SafeMode
+
+    menu "MQTT"
+      config MQTT_QOS
+        int "Mqtt QoS"
+        default 1
+
+      config MQTT_KEEPALIVE
+        int "Mqtt Keep-Alive (seconds)"
+        default 60
+
+      config MQTT_PUBLISH_BUFFER_TASK
+        bool "Mqtt publish using separate buffer task"
+        default n
+
+      config MQTT_SUBSCRIBE_TIMEOUT
+        int "Mqtt subscribe timeout/retry interval"
+        depends on MQTT_PUBLISH_BUFFER_TASK
+        default 5000
+    endmenu # Mqtt
+
+    menu "Sensors"
+      menu "Temp Sensor Config"
+        config TEMP_SENSOR_READ_INTERVAL
+          int "Temp Sensor Read Interval"
+          default 1000
+
+        config TEMP_SENSOR_PUBLISH_INTERVAL
+          int "Temp Sensor Publish Interval"
+          default 30000
+      endmenu # Temp Sensor Config
+
+      config ENABLE_ONE_WIRE_DRIVER
+        bool "One Wire Driver"
+        default y
+
+        config ENABLE_DS18B20_SENSOR_PLUGIN
+          bool "DS18B20 Temp Sensor Plugin"
+          depends on ENABLE_ONE_WIRE_DRIVER
+          default y
+
+      menuconfig ENABLE_SOIL_SENSOR
+        bool "Soil Sensor"
+        default y
+
+        config SOIL_SENSOR_POLL_INTERVAL
+          int "Soil Sensor Poll Interval"
+          depends on ENABLE_SOIL_SENSOR
+          default 1000
+
+        config SOIL_SENSOR_PUBLISH_INTERVAL
+          int "Soil Sensor Publish Interval"
+          depends on ENABLE_SOIL_SENSOR
+          default 30000
+
+      menuconfig ENABLE_I2C_DRIVER
+        bool "i2c Driver"
+        default y
+
+        menuconfig ENABLE_QMC5883L_COMPASS_SENSOR
+          bool "QMC5883L Compass Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+          config QMC5883L_COMPASS_SENSOR_POLL_INTERVAL
+            int "QMC5883L Compass Sensor Poll Interval"
+            depends on ENABLE_QMC5883L_COMPASS_SENSOR
+            default 100
+
+          config QMC5883L_COMPASS_SENSOR_PUBLISH_INTERVAL
+            int "QMC5883L Compass Sensor Publish Interval"
+            depends on ENABLE_QMC5883L_COMPASS_SENSOR
+            default 30000
+
+        config ENABLE_NFC_DRIVER_532
+          bool "NFC P532"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+        config ENABLE_MCP9808_SENSOR
+          bool "MCP9808 i2c Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+        config ENABLE_HDC1008_SENSOR
+          bool "HDC1008 i2c Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+        config ENABLE_HTU21D_SENSOR
+          bool "HTU21D i2c Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+        config ENABLE_LM75A_SENSOR
+          bool "LM75A i2c Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+        config ENABLE_BMP280_SENSOR
+          bool "BMP280 i2c Sensor"
+          depends on ENABLE_I2C_DRIVER
+          default y
+
+      config ENABLE_ESP32_INTERNAL_TEMP_SENSOR
+        bool "ESP32 Internal Temp Sensor"
+        default n
+
+      config ENABLE_REED_SWITCH_DRIVER
+        bool "Reed Switch Driver"
+        default y
+
+      config ENABLE_DHT_TEMP_SENSOR_PLUGIN
+        bool "DHT Temp Sensor Plugin"
+        default y
+
+    endmenu # Sensors
+
+    menu "Displays"
+      config ENABLE_TFT_DISPLAY
+        bool "TFT eSPI Display Driver"
+        default n
+      config TFT_SNTP_LARGE_DISPLAY_SECONDS
+        bool "Display seconds in sntp large centered display"
+        depends on ENABLE_TFT_DISPLAY
+        default n
+      config ENABLE_TFT_BUFFER
+        bool "TFT Display FrameBuffer"
+        depends on ENABLE_TFT_DISPLAY
+        default n
+      config TFT_8BIT_COLOR
+        bool "Limit TFT Display to 8-bit (256 colors)"
+        depends on ENABLE_TFT_DISPLAY
+        default n
+      config TFT_LCD_UI_FPS
+        int "Tft Lcd Ui Fps"
+        depends on ENABLE_TFT_DISPLAY
+        default 30
+
+      config ENABLE_SPI_DISPLAY_PLUGIN
+        bool "BitBank SPI Display Plugin"
+        default n
+      config ENABLE_SPI_DISPLAY_BUFFER
+        bool "SPI Display FrameBuffer"
+        depends on ENABLE_SPI_DISPLAY_PLUGIN
+        default n
+
+      config ENABLE_I2C_OLED_DISPLAY_PLUGIN
+        bool "I2C OLED Display Plugin"
+        depends on ENABLE_I2C_DRIVER
+        default n
+      config OLED_UI_FPS
+        int "Oled Ui Fps"
+        depends on ENABLE_I2C_OLED_DISPLAY_PLUGIN
+        default 30
+
+      config ENABLE_I2C_LCD_CHARACTER_DISPLAY
+        bool "i2c LCD Character Display"
+        depends on ENABLE_I2C_DRIVER
+        default n
+    endmenu # Displays
+
+    menu "Bluetooth"
+      config ENABLE_BLE_KEYBOARD_PLUGIN
+        bool "BLE Keyboard Plugin (Bluedroid only)"
+        depends on BT_BLUEDROID_ENABLED
+        default n
+
+      config ENABLE_BLE_BEACON
+        bool "Bluedroid BLE Beacon (Deprecated)"
+        depends on BT_BLUEDROID_ENABLED
+        default n
+
+      config ENABLE_NIMBLE_PLUGIN
+        bool "NimBLE Beacon"
+        depends on BT_NIMBLE_ENABLED
+        default n
+    endmenu # Bluetooth
+
+    menu "WebSockets"
+      menuconfig ENABLE_WEBSOCKET_SERVER_PLUGIN
+        bool "Websocket Server"
+        default y
+      config WEBSOCKET_SERVER_PORT
+        int "Websocket Server Port"
+        depends on ENABLE_WEBSOCKET_SERVER_PLUGIN
+        default 3200
+      config FORWARD_APP_LOGS_TO_WEBSOCKET
+        bool "Forward application logs to Websocket"
+        depends on ENABLE_WEBSOCKET_SERVER_PLUGIN
+        default y
+      config FORWARD_ESP_LOG_TO_WEBSOCKET
+        bool "Forward Esp Log To Websocket"
+        depends on ENABLE_WEBSOCKET_SERVER_PLUGIN && FORWARD_APP_LOGS_TO_WEBSOCKET
+        default n
+      config WEBSOCKET_SERVER_AUTH
+        string "Websocket server base64 basic authorization"
+        depends on ENABLE_WEBSOCKET_SERVER_PLUGIN
+
+      config ENABLE_SECURE_WEBSOCKET_PLUGIN
+        bool "Secure Websocket Plugin (nkolban)"
+        depends on NKOLBAN
+        default y
+
+      menuconfig ENABLE_WEBSOCKET_COMMAND_PLUGIN
+        bool "WebSocket Command Plugin"
+        depends on ENABLE_WEBSOCKET_SERVER_PLUGIN && ENABLE_COMMANDS_PLUGIN
+        default y
+      config WEBSOCKET_COMMAND_PORT
+        int "Websocket Commands Port"
+        depends on ENABLE_WEBSOCKET_COMMAND_PLUGIN
+        default 3201
+
+      config ENABLE_WEBSOCKET_CLIENT_PLUGIN
+        bool "Websocket Client (Deprecated)"
+        default n
+    endmenu # WebSockets
+
+    menuconfig ENABLE_BUTTON_PLUGIN
+      bool "Button Plugin"
+      default y
+
+    config LONG_PRESS_DELAY
+      int "Long press duration"
+      depends on ENABLE_BUTTON_PLUGIN
+      default 1000
+
+    menuconfig ENABLE_HEARTBEAT_TASK
+      bool "Heartbeat Task"
+      default y
+      config HEARTBEAT_TASK_CHECK_INTERVAL
+        int "Heartbeat Watchdog Update Interval"
+        depends on ENABLE_HEARTBEAT_TASK
+        default 1000
+        help
+            How often to check if the watchdog timeouts have been exceeded for MQTT, WiFi, etc.
+      config HEARTBEAT_INTERVAL
+        int "Heartbeat Publish Interval"
+        depends on ENABLE_HEARTBEAT_TASK
+        default 30000
+      config HEARTBEAT_MONITOR_WIFI
+        bool "Monitor WiFi connection"
+        depends on ENABLE_HEARTBEAT_TASK && ENABLE_CONNECTION_STATS_PLUGIN
+        default y
+      config WIFI_WATCHDOG_TIMEOUT
+        int "Time interval without WiFi before we reset the board"
+        depends on HEARTBEAT_MONITOR_WIFI
+        range 5000 1000000
+        default 45000
+      config HEARTBEAT_MONITOR_MQTT
+        bool "Monitor MQTT connection"
+        depends on ENABLE_HEARTBEAT_TASK && ENABLE_CONNECTION_STATS_PLUGIN
+        default y
+      config MQTT_WATCHDOG_TIMEOUT
+        int "Time interval without MQTT connection before we reset the board"
+        depends on HEARTBEAT_MONITOR_MQTT
+        range 5000 1000000
+        default 45000
+      config HEARTBEAT_MONITOR_MQTT_SUBSCRIPTIONS
+        bool "Monitor MQTT subscriptions"
+        depends on ENABLE_HEARTBEAT_TASK && ENABLE_CONNECTION_STATS_PLUGIN
+        default y
+      config MQTT_SUBSCRIPTIONS_WATCHDOG_TIMEOUT
+        int "Maximum amount of time to wait for a topic to subscribe before we reset the board"
+        depends on HEARTBEAT_MONITOR_MQTT_SUBSCRIPTIONS
+        range 5000 1000000
+        default 30000
+    # end Heartbeat Task
+
+    menuconfig ENABLE_SNTP_PLUGIN
+      bool "Sntp Plugin"
+      default y
+      config NTP_SERVER_1
+        string "Ntp Server 1"
+        depends on ENABLE_SNTP_PLUGIN
+        default "pool.ntp.org"
+      config NTP_SERVER_2
+        string "Ntp Server 2"
+        depends on ENABLE_SNTP_PLUGIN
+        default "time.nist.gov"
+      config TIMEZONE_CODE
+        string "Timezone zoneinfo code"
+        depends on ENABLE_SNTP_PLUGIN
+        default "PST8PDT,M3.2.0,M11.1.0"
+        help
+          This can be determined by running:
+
+            $ tail -1 /usr/share/zoneinfo/<Country>/<CityOrState>
+
+            $ tail -1 /usr/share/zoneinfo/America/Los_Angeles
+            PST8PDT,M3.2.0,M11.1.0
+
+            $ tail -1 /usr/share/zoneinfo/America/New_York
+            EST5EDT,M3.2.0,M11.1.0
+
+    menuconfig ENABLE_SECURE_OTA_PLUGIN
+      bool "Secure OTA"
+      default y
+      config SECURE_OTA_NATIVE_IMPL
+        bool "Use native ESP-IDF implementation"
+        depends on ENABLE_SECURE_OTA_PLUGIN
+        default y
+        help
+          Use native ESP-IDF implementation instead of Arduino
+      config SECURE_OTA_SUSPEND_ALL_TASKS
+        bool "Secure Ota Suspend All Tasks"
+        depends on ENABLE_SECURE_OTA_PLUGIN
+        default y
+      config SECURE_OTA_RX_TIMEOUT
+        int "Secure Ota Rx Timeout"
+        depends on ENABLE_SECURE_OTA_PLUGIN
+        default 10000
+      config SECURE_OTA_TASK_TIMEOUT
+        int "Secure Ota Task Timeout"
+        depends on ENABLE_SECURE_OTA_PLUGIN
+        default 120000
+
+    menu "Networking"
+      config ENABLE_CONNECTION_STATS_PLUGIN
+        bool "Connection Stats"
+        default y
+
+      config ENABLE_RSSI_STATS_PLUGIN
+        bool "RSSI Stats"
+        default y
+      config LOG_RSSI
+        bool "Log RSSI value changes"
+        depends on ENABLE_RSSI_STATS_PLUGIN
+        default n
+      config RSSI_SAMPLE_INTERVAL
+        int "Rssi Sample Interval"
+        depends on ENABLE_RSSI_STATS_PLUGIN
+        default 100
+      config RSSI_PUBLISH_INTERVAL
+        int "Rssi Publish Interval"
+        depends on ENABLE_RSSI_STATS_PLUGIN
+        default 60000
+
+      config ENABLE_WIFI_SCAN_PLUGIN
+        bool "Wifi Scanner Plugin"
+        default y
+
+      config ENABLE_MDNS_PLUGIN
+        bool "MDNS Plugin"
+        default y
+      config MDNS_SERVICE_TYPE
+        string "Mdns Service Type"
+        depends on ENABLE_MDNS_PLUGIN
+        default "_birdiot"
+
+      config ENABLE_CAMERA_SERVER_PLUGIN
+        bool "Camera Server"
+        default n
+      config CAMERA_SERVER_PORT
+        int "Camera Server Port"
+        depends on ENABLE_CAMERA_SERVER_PLUGIN
+        default 3390
+
+      config ENABLE_HTTPS_SERVER_PLUGIN
+        bool "Https Server (WIP)"
+        default n
+    endmenu # Networking
+
+    menuconfig ENABLE_GPS_PLUGIN
+      bool "GPS"
+      default y
+    choice GPS_UPDATE_RATE_HZ
+      prompt "GPS Module Update Rate"
+      default GPS_RATE_10_HZ
+      depends on ENABLE_GPS_PLUGIN
+      help
+        Configures the GPS Module to send location data
+        for X times per second. Note that not all values
+        may be supported by your module.
+
+      config GPS_RATE_1_HZ
+        bool "1 Hz"
+      config GPS_RATE_5_HZ
+        bool "5 Hz"
+      config GPS_RATE_10_HZ
+        bool "10 Hz"
+      config GPS_RATE_16_HZ
+        bool "16 Hz"
+    endchoice
+    config GPS_UPDATE_RATE_HZ
+      depends on ENABLE_GPS_PLUGIN
+      int
+      default 1 if GPS_RATE_1_HZ
+      default 5 if GPS_RATE_5_HZ
+      default 10 if GPS_RATE_10_HZ
+      default 16 if GPS_RATE_16_HZ
+    config PRINT_GPS_VALUES
+      bool "Print GPS Values"
+      depends on ENABLE_GPS_PLUGIN
+      default n
+
+    menu "File Systems"
+      config ENABLE_SPIFFS_PLUGIN
+        bool "Spiffs"
+        default y
+    endmenu # File Systems
+
+    menu "Console and Commands"
+      config ENABLE_COMMANDS_PLUGIN
+        bool "Commands"
+        default y
+
+      config ENABLE_CONSOLE_PLUGIN
+        bool "Console Plugin"
+        default y
+      config ENABLE_ADVANCED_PROMPT
+        bool "Enable advanced terminal prompt"
+        default n
+        help
+          If this is disabled, linenoise will always execute in dumb terminal mode
+      config STORE_HISTORY
+        bool "Store command history in flash"
+        depends on ENABLE_CONSOLE_PLUGIN
+        default y
+        help
+          Linenoise line editing library provides functions to save and load
+          command history. If this option is enabled, initializes a FAT filesystem
+          and uses it to store command history.
+    endmenu # Console and Commands
+
+    menu "LEDs and NeoPixels"
+      config ENABLE_STATUS_LED_DRIVER
+        bool "Status LED Driver"
+        default y
+      config LED_BUILTIN_PIN
+        int "Built-in Status LED Pin"
+        depends on ENABLE_STATUS_LED_DRIVER
+        default -1
+      config INVERT_STATUS_LED
+        bool "Invert Status Led"
+        depends on ENABLE_STATUS_LED_DRIVER
+        default y
+      config NETWORK_LED_PIN
+        int "Network LED Pin"
+        depends on ENABLE_STATUS_LED_DRIVER
+        default -1
+      config INVERT_NETWORK_LED
+        bool "Invert Network Led"
+        depends on ENABLE_STATUS_LED_DRIVER
+        default y
+
+      config ENABLE_NEOPIXEL_DRIVER
+        bool "Neopixel Driver"
+        depends on ENABLE_STATUS_LED_DRIVER
+        default y
+    endmenu # LEDs and NeoPixels
+
+    menuconfig ENABLE_GARAGE_PLUGIN
+      bool "Garage Plugin"
+      default y
+    config GARAGE_RELAY_DELAY
+      int "Garage Relay Delay"
+      depends on ENABLE_GARAGE_PLUGIN
+      default 200
+    config GARAGE_DOUBLE_TOGGLE_DELAY
+      int "Garage Double Toggle Delay"
+      depends on ENABLE_GARAGE_PLUGIN
+      default 3000
+
+    menu "RF and IR"
+      config ENABLE_RF_SNIFFER_PLUGIN
+        bool "RF Sniffer Plugin"
+        default y
+      config RF_SNIFF_MIN_BIT_LENGTH
+        int "RF Sniffer Minimum Bit Length"
+        depends on ENABLE_RF_SNIFFER_PLUGIN
+        range 1 64
+        default 2
+      config RF_SNIFFER_RAW_SAMPLE_SIZE
+        int "RF Sniffer Raw Sample Size"
+        depends on ENABLE_RF_SNIFFER_PLUGIN
+        range 10 10000
+        default 500
+
+      config ENABLE_RF_TRANSMIT_PLUGIN
+        bool "RF Transmit Plugin"
+        default y
+
+      config ENABLE_IR_PLUGIN
+        bool "IR Plugin"
+        default y
+
+      config ENABLE_RF_RAW_PLUGIN
+        bool "RF Raw Plugin"
+        default n
+
+      config RF_RAW_SAMPLE_SIZE
+        int "RF Raw Sample Size"
+        depends on ENABLE_RF_RAW_PLUGIN
+        range 10 10000
+        default 500
+
+    endmenu # RF and IR
+
+    menu "WIP and Deprecated"
+      config ENABLE_ACURITE_SENSOR_PLUGIN
+        bool "Acurite Sensor Plugin (WIP)"
+        default n
+
+      config ENABLE_HUNTER_FAN_PLUGIN
+        bool "Hunter Fan Plugin (Deprecated)"
+        default n
+    endmenu # WIP and Deprecated
+
+    menu "Debugging"
+      config ENABLE_APP_PROFILING
+        bool "App Profiling"
+        default n
+      config ENABLE_EMPTY_DEBUG_TASK
+        bool "Empty task for task memory debugging"
+        default n
+      config BIRD_IOT_TRACE_LOCKS
+        bool "Debug/Trace Lockable class"
+        default n
+    endmenu # Debugging
+
+  endmenu # Plugins
+
+endmenu # BirdIoT

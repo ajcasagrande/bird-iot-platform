@@ -1,0 +1,84 @@
+[submodule "semver-tool"]
+	path = tools/semver-tool
+	url = https://github.com/fsaintjacques/semver-tool
+[submodule "tft_espi"]
+	path = components/tft_espi/TFT_eSPI
+	url = https://github.com/Bodmer/TFT_eSPI
+[submodule "hdc1000"]
+	path = components/hdc1000/Adafruit_HDC1000_Library
+	url = https://github.com/adafruit/Adafruit_HDC1000_Library
+[submodule "streaming"]
+	path = components/streaming/Streaming
+	url = https://github.com/BirdAPI/Streaming
+[submodule "arduino_json"]
+	path = components/arduino_json/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson
+[submodule "dht"]
+	path = components/dht/DHT-sensor-library
+	url = https://github.com/adafruit/DHT-sensor-library
+[submodule "dallas_temp"]
+	path = components/dallas_temp/Arduino-Temperature-Control-Library
+	url = https://github.com/milesburton/Arduino-Temperature-Control-Library
+[submodule "i2c_lcd"]
+	path = components/i2c_lcd/Arduino-LiquidCrystal-I2C-library
+	url = https://github.com/BirdAPI/Arduino-LiquidCrystal-I2C-library
+[submodule "rc_switch"]
+	path = components/rc_switch/rc-switch
+	url = https://github.com/BirdAPI/rc-switch
+[submodule "arduino_websockets"]
+	path = components/arduino_websockets/arduinoWebSockets
+	url = https://github.com/BirdAPI/arduinoWebSockets
+[submodule "adafruit_sensor"]
+	path = components/adafruit_sensor/Adafruit_Sensor
+	url = https://github.com/adafruit/Adafruit_Sensor
+[submodule "lm75a"]
+	path = components/lm75a/Arduino-LM75A-Temperature-Sensor-Library
+	url = https://github.com/BirdAPI/Arduino-LM75A-Temperature-Sensor-Library
+[submodule "neopixelbus"]
+	path = components/neopixelbus/NeoPixelBus
+	url = https://github.com/BirdAPI/NeoPixelBus
+[submodule "onewire"]
+	path = components/onewire/OneWire
+	url = https://github.com/PaulStoffregen/OneWire
+[submodule "tinygps_plus"]
+	path = components/tinygps_plus/TinyGPSPlus
+	url = https://github.com/mikalhart/TinyGPSPlus
+[submodule "mcp9808"]
+	path = components/mcp9808/Adafruit_MCP9808_Library
+	url = https://github.com/adafruit/Adafruit_MCP9808_Library
+[submodule "bmp280"]
+	path = components/bmp280/Adafruit_BMP280_Library
+	url = https://github.com/adafruit/Adafruit_BMP280_Library
+[submodule "htu21d"]
+	path = components/htu21d/SparkFun_HTU21D_Breakout_Arduino_Library
+	url = https://github.com/sparkfun/SparkFun_HTU21D_Breakout_Arduino_Library
+; [submodule "esp-idf-lib"]
+; 	path = components/esp-idf-lib
+; 	url = https://github.com/UncleRus/esp-idf-lib
+[submodule "bb_spi_lcd"]
+	path = components/bb_spi_lcd/bb_spi_lcd
+	url = https://github.com/bitbank2/bb_spi_lcd
+[submodule "arduino"]
+	path = components/arduino/arduino-esp32
+	url = https://github.com/BirdAPI/arduino-esp32
+[submodule "nkolban"]
+	path = components/nkolban/esp32-snippets
+	url = https://github.com/nkolban/esp32-snippets
+[submodule "easy_button"]
+	path = components/easy_button/EasyButton
+	url = https://github.com/BirdAPI/EasyButton
+[submodule "pn532"]
+	path = components/pn532/PN532
+	url = https://github.com/BirdAPI/PN532
+[submodule "m5stick"]
+	path = components/m5stick/M5StickC
+	url = https://github.com/BirdAPI/M5StickC
+[submodule "qmc5883l"]
+	path = components/qmc5883l/QMC5883L
+	url = https://github.com/BirdAPI/QMC5883L
+[submodule "i2cslave"]
+	path = components/i2cslave/ESP32_I2C_Slave
+	url = https://github.com/gutierrezps/ESP32_I2C_Slave
+[submodule "spektrum-esp32"]
+	path = components/spektrum-esp32
+	url = git@github.com:ajcasagrande/spektrum-esp32

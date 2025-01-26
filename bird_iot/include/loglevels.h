@@ -1,0 +1,15 @@
+#pragma once
+
+#define LOG_LEVEL_VERBOSE 5
+#define LOG_LEVEL_DEBUG 4
+#define LOG_LEVEL_INFO 3
+#define LOG_LEVEL_WARN 2
+#define LOG_LEVEL_ERROR 1
+#define LOG_LEVEL_NONE 0
+
+#define ESP_LOG_LEVEL_VERBOSE 5
+#define ESP_LOG_LEVEL_DEBUG 4
+#define ESP_LOG_LEVEL_INFO 3
+#define ESP_LOG_LEVEL_WARN 2
+#define ESP_LOG_LEVEL_ERROR 1
+#define ESP_LOG_LEVEL_NONE 0
