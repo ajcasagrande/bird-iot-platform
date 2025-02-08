@@ -10,13 +10,16 @@ for x in $ports; do
   TTYS="${TTYS} --device $x:$x"
 done
 
+mkdir -p ./.ccache
+chown "$(id -u):$(id -u)" ./.ccache
+
 docker run -it --rm \
   --net=host \
   -v .:/opt/projects/bird-iot \
-  -v "${HOME}/.ccache://.ccache" \
+  -v "./.ccache://.ccache" \
   -v "/dev:/dev" \
   -w /opt/projects/bird-iot \
   -u "$(id -u):$(id -u)" \
   ${TTYS} \
-  "bird-iot/esp-idf:${IDF_VER}" \
+  "ajcasagrande/bird-iot:esp-idf-${IDF_VER}" \
   make DOCKER_BUILD=true "$@"

@@ -7,6 +7,7 @@ venv/
 venv*/
 esphome/*/
 __pycache__/
+.ccache/
 
 */include/version.h
 test.ini

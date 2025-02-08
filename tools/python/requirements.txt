@@ -4,7 +4,8 @@ birdparse
 birdyaml
 birdjson
 birdpy
-zeroconf
+zeroconf<=0.24.5
+asyncio
 pyserial
 websocket-client
 esptool

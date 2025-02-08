@@ -11,6 +11,7 @@ Welcome to the **Bird-IoT Platform**! This project is designed to run on ESP32-b
 
 ## Table of Contents
 
+- [Getting Started](#getting-started)
 - [Architecture Overview](#architecture-overview)
 - [Plugin System](#plugin-system)
 - [Task System](#task-system)
@@ -18,6 +19,18 @@ Welcome to the **Bird-IoT Platform**! This project is designed to run on ESP32-b
 
 
 ---
+
+## Getting Started
+
+Get the Docker Image
+```shell
+docker pull ajcasagrande/bird-iot:esp-idf-v4.0.2
+```
+
+Build a binary for the `ttgo-display` project
+```shell
+./docker-make.sh env=ttgo-display
+```
 
 ## Architecture Overview
 

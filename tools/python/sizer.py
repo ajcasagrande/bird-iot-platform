@@ -12,9 +12,9 @@ from colors import *
 class Sizer:
     def __init__(self, env):
         self.env = env
-        self.partitions_csv = f'/opt/projects/bird-iot/projects/{self.env}/partitions.csv'
-        self.elf = f'/opt/projects/bird-iot/projects/{self.env}/build/{self.env}.elf'
-        self.map = f'/opt/projects/bird-iot/projects/{self.env}/build/{self.env}.map'
+        self.partitions_csv = f'projects/{self.env}/partitions.csv'
+        self.elf = f'projects/{self.env}/build/{self.env}.elf'
+        self.map = f'projects/{self.env}/build/{self.env}.map'
 
         self.partitions_regex = re.compile(r'^app([0-9]), *app, *ota_[0-9], *(0x[0-9a-fA-F]+), *(0x[0-9a-fA-F]+),?$')
 
@@ -59,7 +59,7 @@ class Sizer:
         self.iram_percent = self.info.used_iram_ratio * 100.0
 
     def parse_sizes(self):
-        output = subprocess.check_output(['idf_size.py', '--json', f'/opt/projects/bird-iot/projects/{self.env}/build/{self.env}.map'])
+        output = subprocess.check_output(['tools/python/idf_size.py', '--json', self.map])
         self.info = birdjson.loads(output)
         self.code_mb = self.info.total_size / 1024.0 / 1024.0
 

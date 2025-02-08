@@ -34,7 +34,7 @@ idf_size_py = idf_size.py $1 $(args)
 else
 activate_venv = . ./activate_env
 venv = $(activate_venv) && $1 $(args)
-py3 = $(activate_venv) && . venv/bin/activate && python3 $1 $(args)
+py3 = $(activate_venv) && python3 $1 $(args)
 idf_py = $(activate_venv) && cd $(call project_dir,$1) && idf.py $2 $(args)
 idf_size_py = $(activate_venv) && idf_size.py $1 $(args)
 endif
@@ -376,13 +376,13 @@ upgrade-all:
 	$(activate_venv) \
 		&& pip3 install -U pip \
 		&& pip3 install -r $(py_tools)/requirements.txt \
-		&& pip3 install -U pip \
-		&& pip3 install -r $(IDF_PATH)/requirements.txt
+		&& pip3 install -r $${IDF_PATH}/requirements.txt
 
 update-idf:
-	cd $(IDF_PATH) && \
-		git pull --recurse-submodules && \
-		git status
+	$(activate_venv) \
+ 		&& cd $${IDF_PATH} \
+		&& git pull --recurse-submodules \
+		&& git status
 
 v version:
 	@echo "  BASE: $(BASE_VERSION)"
@@ -452,6 +452,6 @@ fonts:
 IDF_VER ?= v4.0.2
 docker:
 	docker build -f tools/docker/Dockerfile \
- 		-t bird-iot/esp-idf:$(IDF_VER) \
+ 		-t ajcasagrande/bird-iot:esp-idf-$(IDF_VER) \
  		--build-arg IDF_VER=$(IDF_VER) \
  		tools/
